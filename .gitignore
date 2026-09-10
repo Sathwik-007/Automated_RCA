@@ -1,0 +1,11 @@
+.vscode
+.DS_Store
+
+# temporarily ignore frontend and backend build files
+main.py
+index.html
+
+# ignore checkpoint files
+./data/.ipynb_checkpoints
+./data/log_data
+./Notebooks/.ipynb_checkpoints
