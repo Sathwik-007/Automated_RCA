@@ -9,3 +9,6 @@ index.html
 ./data/.ipynb_checkpoints
 ./data/log_data
 ./Notebooks/.ipynb_checkpoints
+
+# ignore pickle file as well
+./Automated_RCA/artifacts.pkl
