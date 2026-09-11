@@ -56,7 +56,8 @@ Analyzing Data Point at Index 724:
 
 ```
 
-🛠️ Usage & Architecture
+## 🛠️ Usage & Architecture
+
 The architecture is fully object-oriented and contained within custom classes. No external ML libraries (e.g., scikit-learn, xgboost, lightgbm) are used.
 
 ```python
