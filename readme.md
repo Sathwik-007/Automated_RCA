@@ -58,7 +58,9 @@ Analyzing Data Point at Index 724:
 
 ## 🛠️ Usage & Architecture
 
-The architecture is fully object-oriented and contained within custom classes. No external ML libraries (e.g., scikit-learn, xgboost, lightgbm) are used.
+The architecture is fully object-oriented and contained within custom classes. No external ML libraries (e.g., scikit-learn (for decision-tree modelling), xgboost, lightgbm) are used.
+
+*P.S: In this project scrikit-learn is only used to utilise confusion_matrix and RocCurveDisplay from the metrics module for visualisation purposes only.*
 
 ```python
 import numpy as np
