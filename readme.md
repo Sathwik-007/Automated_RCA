@@ -19,7 +19,7 @@ The dataset is formatted specifically for high-performance machine learning rath
 
 - Feature Matrix: The final reconstructed matrix contains 1,194 continuous features tracking CPU, memory utilization, network bandwidth, and packet rates across the entire cluster architecture.
 
-The dataset can be found here: ![Link to HuggingFace dataset](https://huggingface.co/datasets/Lemma-RCA-NEC/Cloud_Computing_Preprocessed)
+The dataset can be found here: [Link to HuggingFace dataset](https://huggingface.co/datasets/Lemma-RCA-NEC/Cloud_Computing_Preprocessed)
 
 ## 🚀 The Engineering Challenge & Optimization
 
