@@ -6,6 +6,21 @@
 
 A custom, dependency-free implementation of a Quantile-Binned, Fast-Histogram Decision Tree engineered from scratch in pure NumPy. This project performs highly explainable Root Cause Analysis (RCA) on massive, highly imbalanced cloud telemetry datasets by replicating the core performance engine of frameworks like LightGBM.
 
+# Problem Overview
+This project was inspired by a chaos engineering simulation where a targeted fault injection (an intentional bug introduced to a specific pod) took 3 hours to trace through manual log parsing. This engine was built to replace that manual review. By continuously monitoring structured telemetry, the model detects degrading metric thresholds and isolates the exact origin of the defect in milliseconds.
+
+# The Dataset Architecture:
+The engine is trained on the Cloud Computing Preprocessed Dataset from Hugging Face (specifically the 20231207 fault-injection subset).
+
+The dataset is formatted specifically for high-performance machine learning rather than human readability:
+- .npy (NumPy Binaries): The core telemetry is stored in pre-compiled NumPy arrays (e.g., pod_level_data_cpu_usage.npy, pod_level_data_rate_transmitted_packets.npy). This format allows for instantaneous loading into memory, bypassing the massive I/O bottlenecks of reading massive raw text or JSON logs.
+
+- .csv (Metadata & Labels): Tabular files that act as the map for the binaries, containing timestamps, pod identifiers, and the binary ground-truth labels (0 for Normal, 1 for Anomaly).
+
+- Feature Matrix: The final reconstructed matrix contains 1,194 continuous features tracking CPU, memory utilization, network bandwidth, and packet rates across the entire cluster architecture.
+
+The dataset can be found here: ![Link to HuggingFace dataset](https://huggingface.co/datasets/Lemma-RCA-NEC/Cloud_Computing_Preprocessed)
+
 ## 🚀 The Engineering Challenge & Optimization
 
 Standard decision trees fail at scale on cloud metrics due to continuous variable sorting. Applying standard boolean masking (`X <= threshold`) across this dataset's matrix of **172,686 rows and 1,194 columns** requires approximately 52.5 billion array evaluations per node.
