@@ -17,7 +17,7 @@ This implementation eliminates that bottleneck using two C-level memory optimiza
 *Benchmarked locally, this architectural optimization reduced total split-search operations from ~52.5B down to ~206M.*
 
 <div align="center">
-  <img src="./Automated_RCA/assets/optimization_impact.png" alt="Algorithmic Time Complexity Reduction" width="600"/>
+  <img src="./Automated_RCA/assets/performance_benchmark.png" alt="Algorithmic Time Complexity Reduction" width="600"/>
 </div>
 
 ## 📊 Model Evaluation & Metrics
@@ -53,3 +53,25 @@ Analyzing Data Point at Index 724:
 --- Prediction Explanation Path ---
  -> Moving [RIGHT] - Feature name: Cluster Level | Metric: Latency, Value: 61.0000 > Threshold: 52.5000
      -> Final Classification: ANOMALY
+
+🛠️ Usage & Architecture
+The architecture is fully object-oriented and contained within custom classes. No external ML libraries (e.g., scikit-learn, xgboost, lightgbm) are used.
+
+```
+import numpy as np
+from binner import QuantileBinner
+from tree import QuantileDecisionTree
+
+# 1. Transform raw telemetry to discrete bins
+binner = QuantileBinner(max_bins=255)
+binner.fit(X_raw)
+X_binned = binner.transform(X_raw)
+
+# 2. Train the Fast-Histogram Tree
+tree = QuantileDecisionTree(max_depth=6, anomaly_weight=50.0, min_samples_leaf=5)
+tree.fit(X_binned, y)
+
+# 3. Predict and Explain
+predictions = tree.predict(X_binned)
+tree.explain_prediction(X_raw[idx], X_binned[idx], binner, feature_names)
+```
