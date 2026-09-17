@@ -109,20 +109,16 @@ Since GitHub cannot host the 2.3 GB compiled model memory, you must download the
 **2. Install Dependencies**
 * Ensure you are using Python 3.10+.
 * Install the required lightweight packages:
-  ```bash
-  pip install fastapi uvicorn numpy websockets
-
-```
+```bash
+pip install fastapi uvicorn numpy websockets
+```  
 
 **3. Start the Streaming Server**
 
 * Execute the main script to initialize the FastAPI Lifespan and load the model into memory:
 ```bash
 python main.py
-
 ```
-
-
 
 **4. View the Live Dashboard**
 
