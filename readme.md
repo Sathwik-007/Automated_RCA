@@ -99,16 +99,12 @@ predictions = tree.predict(X_binned)
 tree.explain_prediction(X_raw[idx], X_binned[idx], binner, feature_names)
 ```
 
-Here is a clean, professional section you can append to your `README.md` to guide users on running the complete setup locally.
-
-```markdown
 ## 💻 How to Run Locally
 
 Since GitHub cannot host the 2.3 GB compiled model memory, you must download the artifacts before starting the engine.
 
-**1. Download Model Artifacts**
-* Download `artifacts.pkl` from [Insert Link to Google Drive/S3 here].
-* Place the file directly in the root directory of this repository.
+**1. Generate Model Artifacts**
+* Run the 01_RCA_cloud_computing.ipynb to generate the pickle artifacts and have it placed directly in the root directory of this repository.
 
 **2. Install Dependencies**
 * Ensure you are using Python 3.10+.
