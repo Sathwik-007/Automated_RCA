@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Cloud RCA Engine</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #121212; color: #ffffff; font-family: 'Courier New', Courier, monospace; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        .status-ok { color: #4caf50; font-weight: bold; }
+        .status-danger { color: #f44336; font-weight: bold; animation: blink 1s linear infinite; }
+        .rca-box { background-color: #1e1e1e; border-left: 4px solid #f44336; padding: 15px; margin-top: 15px; white-space: pre-wrap; }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Aegis Telemetry Monitor</h2>
+            <p>System Status: <span id="sys-status" class="status-ok">MONITORING HEALTHY</span></p>
+        </div>
+        
+        <div style="height: 400px; width: 100%;">
+            <canvas id="telemetryChart"></canvas>
+        </div>
+
+        <div id="alert-container"></div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('telemetryChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: 'System Metric (ms)', 
+                    data: [], 
+                    borderColor: '#4caf50', 
+                    tension: 0.1 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                animation: { duration: 400 },
+                scales: { y: { beginAtZero: true } } 
+            }
+        });
+
+    const statusEl = document.getElementById("sys-status");
+    const alertContainer = document.getElementById("alert-container");
+
+    function connectWebSocket() {
+            const ws = new WebSocket("ws://localhost:8000/ws/telemetry");
+
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                
+                chart.data.labels.push(data.timestamp);
+                chart.data.datasets[0].data.push(data.metric_value);
+                if (chart.data.labels.length > 30) {
+                    chart.data.labels.shift();
+                    chart.data.datasets[0].data.shift();
+                }
+
+                if (data.status === "ANOMALY") {
+                    chart.data.datasets[0].borderColor = '#f44336';
+                    statusEl.textContent = "CRITICAL OUTAGE DETECTED";
+                    statusEl.className = "status-danger";
+                    
+                    const alertBox = document.createElement("div");
+                    alertBox.className = "rca-box";
+                    alertBox.textContent = `[Index: ${data.timestamp}] ⚠️ ROOT CAUSE ISOLATED:\n${data.rca_trace}`;
+                    alertContainer.prepend(alertBox);
+
+                    if (alertContainer.children.length > 5) {
+                        alertContainer.removeChild(alertContainer.lastChild);
+                    }
+                } else {
+                    chart.data.datasets[0].borderColor = '#4caf50';
+                    statusEl.textContent = "MONITORING HEALTHY";
+                    statusEl.className = "status-ok";
+                }
+                chart.update();
+            };
+
+            // Auto-Reconnect Logic
+            ws.onclose = function() {
+                statusEl.textContent = "CONNECTION LOST. RECONNECTING...";
+                statusEl.className = "status-danger";
+                chart.data.datasets[0].borderColor = '#555';
+                chart.update();
+                setTimeout(connectWebSocket, 3000); // Try to reconnect every 3 seconds
+            };
+
+            ws.onerror = function() {
+                ws.close();
+            };
+        }
+
+        // Initialize connection
+        connectWebSocket();
+    </script>
+</body>
+</html>
