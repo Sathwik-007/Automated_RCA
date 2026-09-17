@@ -4,10 +4,7 @@
 ![NumPy](https://img.shields.io/badge/NumPy-Optimized-green.svg)
 ![Machine Learning](https://img.shields.io/badge/ML-Whitebox_Explainability-orange.svg)
 
-
-
-https://github.com/user-attachments/assets/21bf1f5f-f3ae-4536-89fe-4e16fa9f6a15
-
+<img width="2636" height="1242" alt="Screen Recording 2026-09-16 at 10 59 43 PM 2" src="https://github.com/user-attachments/assets/96580f5a-8638-4ec9-b76b-159d0239fef7" />
 
 
 A custom, dependency-free implementation of a Quantile-Binned, Fast-Histogram Decision Tree engineered from scratch in pure NumPy. This project performs highly explainable Root Cause Analysis (RCA) on massive, highly imbalanced cloud telemetry datasets by replicating the core performance engine of frameworks like LightGBM.
