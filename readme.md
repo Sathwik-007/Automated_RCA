@@ -4,6 +4,12 @@
 ![NumPy](https://img.shields.io/badge/NumPy-Optimized-green.svg)
 ![Machine Learning](https://img.shields.io/badge/ML-Whitebox_Explainability-orange.svg)
 
+
+
+https://github.com/user-attachments/assets/21bf1f5f-f3ae-4536-89fe-4e16fa9f6a15
+
+
+
 A custom, dependency-free implementation of a Quantile-Binned, Fast-Histogram Decision Tree engineered from scratch in pure NumPy. This project performs highly explainable Root Cause Analysis (RCA) on massive, highly imbalanced cloud telemetry datasets by replicating the core performance engine of frameworks like LightGBM.
 
 # Problem Overview
@@ -95,3 +101,37 @@ tree.fit(X_binned, y)
 predictions = tree.predict(X_binned)
 tree.explain_prediction(X_raw[idx], X_binned[idx], binner, feature_names)
 ```
+
+Here is a clean, professional section you can append to your `README.md` to guide users on running the complete setup locally.
+
+```markdown
+## 💻 How to Run Locally
+
+Since GitHub cannot host the 2.3 GB compiled model memory, you must download the artifacts before starting the engine.
+
+**1. Download Model Artifacts**
+* Download `artifacts.pkl` from [Insert Link to Google Drive/S3 here].
+* Place the file directly in the root directory of this repository.
+
+**2. Install Dependencies**
+* Ensure you are using Python 3.10+.
+* Install the required lightweight packages:
+  ```bash
+  pip install fastapi uvicorn numpy websockets
+
+```
+
+**3. Start the Streaming Server**
+
+* Execute the main script to initialize the FastAPI Lifespan and load the model into memory:
+```bash
+python main.py
+
+```
+
+
+
+**4. View the Live Dashboard**
+
+* Open your web browser and navigate to `http://localhost:8000`.
+* The frontend will automatically establish a WebSocket connection and begin rendering the live telemetry and RCA traces.
