@@ -104,7 +104,7 @@ tree.explain_prediction(X_raw[idx], X_binned[idx], binner, feature_names)
 Since GitHub cannot host the 2.3 GB compiled model memory, you must download the artifacts before starting the engine.
 
 **1. Generate Model Artifacts**
-* Run the 01_RCA_cloud_computing.ipynb to generate the pickle artifacts and have it placed directly in the root directory of this repository.
+* Run the `01_RCA_cloud_computing.ipynb` to generate the pickle artifacts and have it placed directly in the root directory of this repository.
 
 **2. Install Dependencies**
 * Ensure you are using Python 3.10+.
